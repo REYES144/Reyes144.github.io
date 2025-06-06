@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tech Life - Accesorios móviles</title>
+<style>
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  body {
+    background: #fff;
+    color: #222;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    color: #f5c518;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  .logo img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  .store-name {
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+  .slogan {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #f5c518cc;
+  }
+  nav.socials a {
+    color: #f5c518;
+    margin-left: 15px;
+    text-decoration: none;
+    font-size: 1.4em;
+  }
+  nav.socials a:hover {
+    color: #fff;
+  }
+  #main {
+    display: flex;
+    margin: 20px;
+    gap: 20px;
+  }
+  #categories {
+    width: 220px;
+  }
+  #categories button {
+    width: 100%;
+    background: #222;
+    color: #f5c518;
+    border: none;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 5px;
+  }
+  #categories ul {
+    list-style: none;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+  }
+  #categories ul li {
+    margin: 5px 0;
+    cursor: pointer;
+    color: #444;
+  }
+  #categories ul li:hover {
+    color: #f5c518;
+  }
+  #products {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+    gap: 20px;
+  }
+  .product-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .product-card img {
+    max-width: 100%;
+    border-radius: 5px;
+  }
+  .product-info {
+    margin-top: 10px;
+  }
+  .product-info h4 {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+  }
+  .product-info p {
+    font-size: 0.9em;
+    color: #555;
+  }
+  .product-info .price {
+    font-weight: bold;
+    margin: 8px 0;
+    color: #000;
+  }
+  .product-card button {
+    background: #f5c518;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .product-card button:hover {
+    background: #d1a918;
+  }
+  #cart {
+    width: 320px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fafafa;
+    padding: 10px;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+  }
+  #cart h3 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  #cart-items {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .cart-item {
+    border-bottom: 1px solid #ddd;
+    padding: 6px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-item span {
+    flex-grow: 1;
+  }
+  .cart-item button {
+    background: #c00;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 6px;
+    cursor: pointer;
+  }
+  #cart-total {
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: right;
+  }
+  #btn-checkout {
+    margin-top: 15px;
+    width: 100%;
+    background: #000;
+    color: #f5c518;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  #btn-checkout:hover {
+    background: #222;
+  }
+  /* Forms */
+  #login-register, #checkout-form, #confirmation {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fafafa;
+  }
+  #login-register h2,
+  #checkout-form h2,
+  #confirmation h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #222;
+  }
+  label {
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 12px;
+    font-weight: bold;
+    color: #333;
+  }
+  input[type=text],
+  input[type=date],
+  input[type=password],
+  input[type=number],
+  input[type=email] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 3px;
+    border: 1px solid #999;
+    font-size: 1em;
+  }
+  input[type=submit], button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background: #f5c518;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  input[type=submit]:hover, button:hover {
+    background: #d1a918;
+  }
+  /* Redes sociales en header con iconos simples */
+  .socials a::before {
+    content: attr(data-icon);
+    margin-right: 6px;
+  }
+  .hidden {
+    display: none !important;
+  }
+  /* Scroll para listas y carrito */
+  #categories ul, #cart-items {
+    scrollbar-width: thin;
+    scrollbar-color: #f5c518 #eee;
+  }
+  #categories ul::-webkit-scrollbar,
+  #cart-items::-webkit-scrollbar {
+    width: 8px;
+  }
+  #categories ul::-webkit-scrollbar-track,
+  #cart-items::-webkit-scrollbar-track {
+    background: #eee;
+  }
+  #categories ul::-webkit-scrollbar-thumb,
+  #cart-items::-webkit-scrollbar-thumb {
+    background-color: #f5c518;
+    border-radius: 10px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="logo r.jpg" alt="Logo Tech & Life" />
+    <div>
+      <div class="store-name">Tech & Life</div>
+      <div class="slogan">Tu conexión con la tecnología móvil</div>
+    </div>
+  </div>
+  <nav class="socials">
+    <a href="https://wa.me/+529615580688" target="_blank" title="WhatsApp" data-icon="📱">WhatsApp</a>
+    <a href="https://www.facebook.com/friends/requests?profile_id=100065352731533" target="_blank" title="Facebook" data-icon="📘">Facebook</a>
+    <a href="https://instagram.com/Tech_And.Life" target="_blank" title="Instagram" data-icon="📸">Instagram</a>
+    <a href="https://whatsapp.com/channel/0029VbBAKMkIyPtLasVvIz05" target="_blank" title="Canal WhatsApp" data-icon="💬">Canal WhatsApp</a>
+  </nav>
+</header>
+
+<!-- Login & Registro -->
+<div id="login-register">
+  <h2>Iniciar sesión / Registrarse</h2>
+  <form id="form-login">
+    <label for="login-name">Nombre Completo</label>
+    <input type="text" id="login-name" required placeholder="Tu nombre completo" />
+    <label for="login-lastname">Apellido</label>
+    <input type="text" id="login-lastname" required placeholder="Tu apellido" />
+    <label for="login-address">Dirección</label>
+    <input type="text" id="login-address" required placeholder="Tu dirección" />
+    <label for="login-birthdate">Fecha de nacimiento</label>
+    <input type="date" id="login-birthdate" required max="" />
+    <label for="login-reference">Referencia de entrega</label>
+    <input type="text" id="login-reference" required placeholder="Referencia para entrega" />
+    <button type="submit">Registrar / Iniciar</button>
+  </form>
+</div>
+
+<!-- Página principal con productos -->
+<div id="main" class="hidden">
+  <aside id="categories">
+    <h3>Categorías</h3>
+    <button class="cat-toggle" data-target="cat1">Fundas</button>
+    <ul id="cat1" class="cat-list">
+      <li data-cat="Fundas">Fundas</li>
+    </ul>
+    <button class="cat-toggle" data-target="cat2">Cargadores</button>
+    <ul id="cat2" class="cat-list">
+      <li data-cat="Cargadores">Cargadores</li>
+    </ul>
+    <button class="cat-toggle" data-target="cat3">Audífonos</button>
+    <ul id="cat3" class="cat-list">
+      <li data-cat="Audífonos">Audífonos</li>
+    </ul>
+    <button class="cat-toggle" data-target="cat4">Protectores de pantalla</button>
+    <ul id="cat4" class="cat-list">
+      <li data-cat="Protectores">Protectores</li>
+    </ul>
+    <button class="cat-toggle" data-target="cat5">Soportes</button>
+    <ul id="cat5" class="cat-list">
+      <li data-cat="Soportes">Soportes</li>
+    </ul>
+    <button class="cat-toggle" data-target="cat6">Baterías externas</button>
+    <ul id="cat6" class="cat-list">
+      <li data-cat="Baterías">Baterías</li>
+    </ul>
+  </aside>
+  <section id="products"></section>
+  <aside id="cart">
+    <h3>Carrito de compras</h3>
+    <div id="cart-items"></div>
+    <div id="cart-total">Total: $0</div>
+    <button id="btn-checkout">Finalizar compra</button>
+  </aside>
+</div>
+
+<!-- Formulario de pago -->
+<div id="checkout-form" class="hidden">
+  <h2>Datos de la tarjeta</h2>
+  <form id="form-checkout">
+    <label for="card-name">Nombre del dueño de la tarjeta</label>
+    <input type="text" id="card-name" required />
+    <label for="card-number">Número de la tarjeta</label>
+    <input type="text" id="card-number" maxlength="16" minlength="13" pattern="\d{13,16}" required placeholder="Solo números" />
+    <label for="card-cvv">CVV</label>
+    <input type="text" id="card-cvv" maxlength="4" minlength="3" pattern="\d{3,4}" required placeholder="3 o 4 dígitos" />
+    <label for="card-expiry">Fecha de vencimiento</label>
+    <input type="month" id="card-expiry" required min="" />
+    <button type="submit">Procesar compra</button>
+  </form>
+</div>
+
+<!-- Confirmación -->
+<div id="confirmation" class="hidden">
+  <h2>Compra en proceso</h2>
+  <div id="conf-message"></div>
+  <button id="btn-back-to-menu">Volver al menú</button>
+</div>
+
+<script>
+  // Variables globales
+  const users = [];
+  let currentUser = null;
+  let cart = [];
+
+  // Producto: 5 productos por 6 categorías, imágenes genéricas + info al azar
+  const categories = [
+    "Fundas",
+    "Cargadores",
+    "Audífonos",
+    "Protectores",
+    "Soportes",
+    "Baterías"
+  ];
+
+const sampleProducts = {
+  "Fundas": [
+    {name:"Funda Antigolpes", price: 120, desc:"Protección máxima para tu móvil", img:"funda.jpg"},
+
+    {name:"Funda Silicona", price: 90, desc:"Ligera y flexible", img:"silicona.jpg"},
+
+    {name:"Funda Transparente", price: 100, desc:"Diseño simple y elegante", img:"trasp.jpg"},
+
+    {name:"Funda Carcasa", price: 150, desc:"Carcasa dura resistente", img:"car.jpg"},
+
+    {name:"Funda Wallet", price: 180, desc:"Con billetera integrada", img:"fun.jpg"},
+  ],
+  "Cargadores": [
+
+    {name:"Cargador Rápido", price: 250, desc:"Carga rápida 30W", img:"crap.jpg"},
+
+    {name:"Cargador Inalámbrico", price: 350, desc:"Carga sin cables", img:"cin.jpg"},
+
+    {name:"Cable USB-C", price: 80, desc:"Cable resistente", img:"usbc.jpg"},
+
+    {name:"Cargador para Auto", price: 270, desc:"Carga rápido en el auto", img:"ccar.jpg"},
+
+    {name:"Cargador Dual USB", price: 320, desc:"Carga dos dispositivos", img:"dual.jpg"},
+
+  ],
+
+  "Audífonos": [
+
+    {name:"Audífonos Inalámbricos", price: 450, desc:"Bluetooth, cancelación de ruido", img:"auin.jpg"},
+
+    {name:"Audífonos Deportivos", price: 380, desc:"Resistentes al sudor", img:"dep.jpg"},
+
+    {name:"Audífonos On-Ear", price: 420, desc:"Gran calidad de sonido", img:"on.jpg"},
+
+    {name:"Audífonos con Micrófono", price: 400, desc:"Ideal para llamadas", img:"micr.jpg"},
+
+    {name:"Audífonos Gaming", price: 600, desc:"Micrófono y sonido envolvente", img:"gam.jpg"},
+
+  ],
+
+  "Protectores": [
+
+    {name:"Protector Vidrio Templado", price: 120, desc:"Máxima protección para pantalla", img:"templa.jpg"},
+
+    {name:"Protector Anti-Reflectante", price: 140, desc:"Menos reflejos y huellas", img:"anti.jpg"},
+
+    {name:"Protector Hidrogel", price: 130, desc:"Acabado Hidrojel y curvo", img:"gel.jpg"},
+
+    {name:"Protector Completo", price: 180, desc:"Cubierta total de pantalla", img:"completo.jpg"},
+
+    {name:"Protector Hidrofóbico", price: 150, desc:"Resiste líquidos y suciedad", img:"hidro.jpg"},
+
+  ],
+
+  "Soportes": [
+
+    {name:"Soporte para Auto", price: 220, desc:"Ideal para el coche", img:"carro.jpg"},
+
+    {name:"Soporte de Escritorio", price: 200, desc:"Para escritorio o mesa", img:"escritorio.jpg"},
+
+    {name:"Soporte Magnético", price: 190, desc:"Fácil colocación magnética", img:"magnetico.jpg"},
+
+    {name:"Soporte Flexible", price: 230, desc:"Ajustable y flexible", img:"ajustable.jpg"},
+
+    {name:"Soporte con Carga", price: 350, desc:"Con carga inalámbrica", img:"inalam.jpg"},
+
+  ],
+
+  "Baterías": [
+
+    {name:"Power Bank 10,000mAh", price: 300, desc:"Compacta y potente", img:"Power Bank 10,000mAh.jpg"},
+
+    {name:"Power Bank Solar", price: 500, desc:"Carga solar de emergencia", img:"solar.jpg"},
+
+    {name:"Cargador con Panel Solar", price: 550, desc:"Ideal para exteriores", img:"Cargador con Panel Solar.jpg"},
+
+    {name:"Power Bank Ultra Rápido", price: 400, desc:"Carga rápida PD", img:"Power Bank Ultra Rápido.jpg"},
+
+    {name:"Batería de respaldo", price: 350, desc:"Alta capacidad", img:"Batería de respaldo.jpg"},
+
+  ]
+};
+
+  // Para fechas límite de inputs
+  function setMaxDates() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('login-birthdate').max = today;
+
+    const monthInput = document.getElementById('card-expiry');
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth() + 1;
+    month = month < 10 ? '0' + month : month;
+    monthInput.min = `${year}-${month}`;
+  }
+  setMaxDates();
+
+  // Función para mostrar solo una sección a la vez
+  function showSection(id) {
+    ['login-register', 'main', 'checkout-form', 'confirmation'].forEach(secId => {
+      document.getElementById(secId).classList.add('hidden');
+    });
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  // Mostrar productos (inicialmente todos)
+  function renderProducts(filterCat = null) {
+    const container = document.getElementById('products');
+    container.innerHTML = '';
+    let prods = [];
+
+    if (filterCat && sampleProducts[filterCat]) {
+      prods = sampleProducts[filterCat];
+    } else {
+      // todos los productos
+      for (const cat of categories) {
+        prods = prods.concat(sampleProducts[cat]);
+      }
+    }
+
+    prods.forEach((prod, index) => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${prod.img}" alt="${prod.name}" />
+        <div class="product-info">
+          <h4>${prod.name}</h4>
+          <p>${prod.desc}</p>
+          <div class="price">$${prod.price.toFixed(2)}</div>
+          <button data-cat="${prod.category || ''}" data-index="${index}">Agregar al carrito</button>
+        </div>
+      `;
+      // Para identificar bien el producto en el carrito, añadimos cat e índice:
+      card.querySelector('button').addEventListener('click', () => addToCart(prod));
+      container.appendChild(card);
+    });
+  }
+
+  // Manejar categoría plegable
+  document.querySelectorAll('.cat-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-target');
+      const ul = document.getElementById(target);
+      if (ul.style.display === 'block') {
+        ul.style.display = 'none';
+      } else {
+        // Cerramos los otros
+        document.querySelectorAll('#categories ul').forEach(u => u.style.display = 'none');
+        ul.style.display = 'block';
+      }
+    });
+  });
+
+  // Filtrar productos al hacer click en categoría
+  document.querySelectorAll('#categories ul li').forEach(li => {
+    li.addEventListener('click', () => {
+      const cat = li.getAttribute('data-cat');
+      renderProducts(cat);
+    });
+  });
+
+  // Añadir al carrito
+  function addToCart(product) {
+    cart.push(product);
+    renderCart();
+  }
+
+  // Renderizar carrito
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    container.innerHTML = '';
+    let total = 0;
+
+    cart.forEach((prod, i) => {
+      total += prod.price;
+      const item = document.createElement('div');
+      item.className = 'cart-item';
+      item.innerHTML = `
+        <span>${prod.name} - $${prod.price.toFixed(2)}</span>
+        <button data-index="${i}" title="Eliminar">×</button>
+      `;
+      item.querySelector('button').addEventListener('click', (e) => {
+        const idx = +e.target.getAttribute('data-index');
+        cart.splice(idx, 1);
+        renderCart();
+      });
+      container.appendChild(item);
+    });
+
+    document.getElementById('cart-total').textContent = `Total: $${total.toFixed(2)}`;
+  }
+
+  // Manejar registro/inicio sesión
+  document.getElementById('form-login').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Validar campos simples
+    const name = document.getElementById('login-name').value.trim();
+    const lastname = document.getElementById('login-lastname').value.trim();
+    const address = document.getElementById('login-address').value.trim();
+    const birthdate = document.getElementById('login-birthdate').value;
+    const reference = document.getElementById('login-reference').value.trim();
+
+    if (!name || !lastname || !address || !birthdate || !reference) {
+      alert('Por favor, complete todos los campos.');
+      return;
+    }
+
+    // Verificar si usuario ya existe (por nombre+apellido)
+    let user = users.find(u => u.name === name && u.lastname === lastname);
+    if (!user) {
+      // Nuevo usuario
+      user = {name, lastname, address, birthdate, reference};
+      users.push(user);
+      alert('Registro exitoso.');
+    } else {
+      alert('Usuario encontrado, iniciando sesión.');
+    }
+
+    currentUser = user;
+    cart = [];
+    renderProducts();
+    renderCart();
+    showSection('main');
+  });
+
+  // Finalizar compra: mostrar formulario de tarjeta
+  document.getElementById('btn-checkout').addEventListener('click', () => {
+    if (cart.length === 0) {
+      alert('El carrito está vacío.');
+      return;
+    }
+    showSection('checkout-form');
+  });
+
+  // Procesar compra con formulario tarjeta
+  document.getElementById('form-checkout').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Validar tarjeta básica
+    const cardName = document.getElementById('card-name').value.trim();
+    const cardNumber = document.getElementById('card-number').value.trim();
+    const cardCVV = document.getElementById('card-cvv').value.trim();
+    const cardExpiry = document.getElementById('card-expiry').value;
+
+    if (!cardName || !cardNumber || !cardCVV || !cardExpiry) {
+      alert('Complete todos los campos de la tarjeta.');
+      return;
+    }
+
+    // Validar que la fecha no sea pasada
+    const today = new Date();
+    const [year, month] = cardExpiry.split('-');
+    const expDate = new Date(year, month - 1);
+    if (expDate < new Date(today.getFullYear(), today.getMonth())) {
+      alert('La tarjeta está vencida.');
+      return;
+    }
+
+    // Mostrar confirmación
+    let total = cart.reduce((sum, p) => sum + p.price, 0);
+    const deliveryDate = getRandomDeliveryDate();
+
+    let message = `
+      <p><strong>Cliente:</strong> ${currentUser.name} ${currentUser.lastname}</p>
+      <p><strong>Dirección:</strong> ${currentUser.address}</p>
+      <p><strong>Referencia:</strong> ${currentUser.reference}</p>
+      <p><strong>Productos comprados:</strong></p>
+      <ul>
+        ${cart.map(p => `<li>${p.name} - $${p.price.toFixed(2)}</li>`).join('')}
+      </ul>
+      <p><strong>Total pagado:</strong> $${total.toFixed(2)}</p>
+      <p><strong>Fecha estimada de entrega:</strong> ${deliveryDate}</p>
+      <p><em>Gracias por su compra, estamos procesando su pago.</em></p>
+    `;
+    document.getElementById('conf-message').innerHTML = message;
+
+    showSection('confirmation');
+  });
+
+  // Volver al menú principal desde confirmación
+  document.getElementById('btn-back-to-menu').addEventListener('click', () => {
+    cart = [];
+    renderCart();
+    renderProducts();
+    showSection('main');
+  });
+
+  // Fecha aleatoria para entrega (entre 2 y 7 días desde hoy)
+  function getRandomDeliveryDate() {
+    const today = new Date();
+    const daysToAdd = Math.floor(Math.random() * 6) + 2;
+    today.setDate(today.getDate() + daysToAdd);
+    return today.toLocaleDateString();
+  }
+
+  // Inicialización
+  renderProducts();
+  renderCart();
+</script>
+
+</body>
+</html>
